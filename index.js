@@ -26,6 +26,7 @@ const manager = [
     },
 ];
 
+// Employee questions
 const employee = [
     {
         type: "input",
@@ -75,8 +76,7 @@ function generateHTML(html) {
 // Initialize app
 function init() {
     inquirer
-        .prompt(manager)
-        .then((response => {
+        .prompt(manager).then((response => {
         createManager(response);
         checkFinished();
     }));
