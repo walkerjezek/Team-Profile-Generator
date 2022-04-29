@@ -1,8 +1,17 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
+const generateHTML = require('./generateHTML');
+
+const Employee = require('./lib/Employee');
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+
+
 
 // Questions list - Manager
+// How to validate answers?
 const manager = [
     {
         type: "input",
@@ -64,6 +73,15 @@ const employee = [
     },
 ];
 
+const continueOpt = [
+    {
+        type: "list",
+        message: "Would you like to add another employee? ",
+        name: "continueOpt",
+        choice: ["Yes", "No"],
+    },
+]
+
 // Generate the HTML page
 function generateHTML(html) {
     fs.writeFile('./dist/generateHTML.html', html, (err) => {
@@ -74,12 +92,14 @@ function generateHTML(html) {
 
 
 // Initialize app
+// Check if finished?
 function init() {
     inquirer
         .prompt(manager).then((response => {
         createManager(response);
-        checkFinished();
-    }));
+        finished();
+    })
+    );
 }
 
 // Function call to initialize app
