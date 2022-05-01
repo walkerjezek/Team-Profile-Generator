@@ -2,6 +2,20 @@
 
 const Engineer = require("./lib/Engineer");
 
+// Build an array and use push to get data into it. The put that array into the html template
+
+// Employee cards array?
+
+// Make manger
+
+// Make engineer
+
+// Make Intern
+
+
+
+
+
 function generateHTML(data) {
     // HTML layout here.
     // Use an array for the cards?

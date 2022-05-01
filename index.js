@@ -9,9 +9,17 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
 
+// init app
+// prompt manager questions
+// check if finished
+// if finished, generate HTML
+// if more employees, prompt employee questions
+// check if finished again
+
+// team members array?
 
 // Questions list - Manager
-// How to validate answers?
+// How to validate answers? inquirer documentation
 const manager = [
     {
         type: "input",
@@ -78,9 +86,26 @@ const continueOpt = [
         type: "list",
         message: "Would you like to add another employee? ",
         name: "continueOpt",
-        choice: ["Yes", "No"],
+        choice: ["Yes", "No. Generate my HTML"],
     },
 ]
+
+// functions to push team members to the team array
+function makeManager(data) {
+
+}
+
+function makeEngineer(data) {
+
+}
+
+function makeIntern(data) {
+
+}
+
+// use team array to push data to generatehtml 
+team = []
+
 
 // Generate the HTML page
 function generateHTML(html) {
@@ -94,9 +119,8 @@ function generateHTML(html) {
 // Initialize app
 // Check if finished?
 function init() {
-    inquirer
-        .prompt(manager).then((response => {
-        createManager(response);
+    inquirer.prompt(manager).then((response => {
+        makeManager(response);
         finished();
     })
     );
