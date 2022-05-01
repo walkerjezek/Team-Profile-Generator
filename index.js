@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+// const jest = require('jest');
 
 const generateHTML = require('./generateHTML');
 
@@ -7,6 +8,8 @@ const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
+// const { create } = require('lodash');
+
 
 
 // init app
@@ -38,7 +41,7 @@ const manager = [
     },
     {
         type: "input",
-        message: "Manager's Ofice Number: ",
+        message: "Manager's Office Number: ",
         name: "managerOffice",
     },
 ];
@@ -71,13 +74,13 @@ const employee = [
         type: "input",
         message: "Employee GitHub Username: ",
         name: "employeeGitHub",
-        when: (answer) => answer.employeeRole === Engineer
+        when: (answer) => answer.employeeRole === "Engineer"
     },
     {
         type: "input",
         message: "Employee School: ",
         name: "employeeSchool",
-        when: (answer) => answer.employeeRole === Intern
+        when: (answer) => answer.employeeRole === "Intern"
     },
 ];
 
@@ -85,35 +88,64 @@ const continueOpt = [
     {
         type: "list",
         message: "Would you like to add another employee? ",
+        choices: ["Yes", "No. Generate my HTML"],
         name: "continueOpt",
-        choice: ["Yes", "No. Generate my HTML"],
-    },
+    }
 ]
 
-// functions to push team members to the team array
-function makeManager(data) {
-
-}
-
-function makeEngineer(data) {
-
-}
-
-function makeIntern(data) {
-
-}
 
 // use team array to push data to generatehtml 
 team = []
 
 
+// functions to push team members to the team array
+function makeManager(data) {
+    const manager = new Manager(data.managerName, data.managerId, data.managerEmail, data.managerOffice);
+    team.push(manager);
+}
+
+function makeEngineer(data) {
+    const engineer = new Engineer(data.employeeName, data.employeeId, data.employeeEmail, data.employeeGitHub);
+    team.push(engineer);
+}
+
+function makeIntern(data) {
+    const intern = new Intern(data.employeeName, data.employeeId, data.employeeEmail, data.employeeSchool);
+    team.push(intern);
+}
+
+
+
+
 // Generate the HTML page
-function generateHTML(html) {
+function makeHTML(html) {
     fs.writeFile('./dist/generateHTML.html', html, (err) => {
         err ? console.error(err) : console.log("HTML is being generated.")
     })
 }
 
+// Check if the finished prompt is selected. If not go through employees questions then check if finished again
+function finished() {
+    inquirer.prompt(continueOpt).then((response) => {
+        if (response.continueOpt === "No. Generate my HTML") {
+            makeHTML(generateHTML(team));
+        } else {
+            addTeamMember();
+        }
+    });
+}
+
+function addTeamMember() {
+    inquirer.prompt(employee).then((response) => {
+        if (response.employeeRole === "Engineer") {
+            makeEngineer(response);
+            finished();
+        } else {
+            makeIntern(response);
+            finished();
+        }
+    });
+}
 
 
 // Initialize app
