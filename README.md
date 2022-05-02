@@ -4,7 +4,7 @@
   ## Description
   This app creates a team profile page for you based on user inputs. It utilizes inquirer to display prompts and store the answers. The answers are then taken and put into an html template which is then generated for you. This app requires inquirer, fs, and jest.
 
-  Watch the walkthrough video at this link: 
+  
   
 
   ## Table of Contents
