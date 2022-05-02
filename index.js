@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-// const jest = require('jest');
+const jest = require('jest');
 
 const generateHTML = require('./generateHTML');
 
@@ -8,7 +8,7 @@ const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
-// const { create } = require('lodash');
+
 
 
 
@@ -115,13 +115,17 @@ function makeIntern(data) {
 }
 
 
-
-
-// Generate the HTML page
-function makeHTML(html) {
-    fs.writeFile('./dist/generateHTML.html', html, (err) => {
-        err ? console.error(err) : console.log("HTML is being generated.")
-    })
+// If the add team member option is selected go through this function and check if finished at the end
+function addTeamMember() {
+    inquirer.prompt(employee).then((response) => {
+        if (response.employeeRole === "Engineer") {
+            makeEngineer(response);
+            finished();
+        } else {
+            makeIntern(response);
+            finished();
+        }
+    });
 }
 
 // Check if the finished prompt is selected. If not go through employees questions then check if finished again
@@ -135,21 +139,15 @@ function finished() {
     });
 }
 
-function addTeamMember() {
-    inquirer.prompt(employee).then((response) => {
-        if (response.employeeRole === "Engineer") {
-            makeEngineer(response);
-            finished();
-        } else {
-            makeIntern(response);
-            finished();
-        }
-    });
+// Generate the HTML page
+function makeHTML(html) {
+    fs.writeFile('./dist/generateHTML.html', html, (err) => {
+        err ? console.error(err) : console.log("HTML is being generated.")
+    })
 }
 
-
 // Initialize app
-// Check if finished?
+// Check if finished? - In case the team is just the manager...
 function init() {
     inquirer.prompt(manager).then((response => {
         makeManager(response);
@@ -158,5 +156,5 @@ function init() {
     );
 }
 
-// Function call to initialize app
+// initialize app
 init();
